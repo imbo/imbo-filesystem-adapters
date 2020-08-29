@@ -1,0 +1,6 @@
+build
+vendor
+phpunit.xml
+.phpunit.result.cache
+.vscode
+test.php
