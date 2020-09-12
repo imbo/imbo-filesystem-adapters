@@ -25,9 +25,9 @@
     "phpstan/phpstan-phpunit": "^0.12",
     "phpstan/extension-installer": "^1.0",
     "vimeo/psalm": "^3.12",
-    "psalm/plugin-phpunit": "^0.10",
+    "psalm/plugin-phpunit": "^0.12",
     "imbo/imbo-adapters-sdk": "dev-main",
-    "christeredvartsen/testfs": "^0.0.1"
+    "christeredvartsen/testfs": "^0.2"
   },
   "autoload": {
     "psr-4": {
