@@ -12,6 +12,7 @@ jobs:
 
       - name: PHP version info
         run: |
+          composer --version
           php -v
           php -i
           php -m
@@ -37,7 +38,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-suggest --no-progress -o
+        run: composer install
 
       - name: Run unit tests
         run: composer run test
