@@ -46,11 +46,11 @@
     "phpunit:coverage": [
       "vendor/bin/phpunit --verbose --coverage-html build/coverage --coverage-text"
     ],
-    "sa:phpstan": "vendor/bin/phpstan analyse",
-    "sa:psalm": "vendor/bin/psalm",
+    "phpstan": "vendor/bin/phpstan analyse",
+    "psalm": "vendor/bin/psalm",
     "sa": [
-      "@sa:phpstan",
-      "@sa:psalm"
+      "@phpstan",
+      "@psalm"
     ],
     "ci": [
       "@lint",
