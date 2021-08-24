@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 namespace Imbo\Storage;
 
-use Imbo\Exception\StorageException;
 use DateTime;
+use Imbo\Exception\StorageException;
 
-class Filesystem implements StorageInterface {
+class Filesystem implements StorageInterface
+{
     private string $dataDir;
 
     /**
@@ -12,11 +13,13 @@ class Filesystem implements StorageInterface {
      *
      * @param string $dataDir Directory to store the files in
      */
-    public function __construct(string $dataDir) {
+    public function __construct(string $dataDir)
+    {
         $this->dataDir = $dataDir;
     }
 
-    public function store(string $user, string $imageIdentifier, string $imageData) : bool {
+    public function store(string $user, string $imageIdentifier, string $imageData): bool
+    {
         if (!is_writable($this->dataDir)) {
             throw new StorageException('Could not store image', 500);
         }
@@ -49,7 +52,8 @@ class Filesystem implements StorageInterface {
         return true;
     }
 
-    public function delete(string $user, string $imageIdentifier) : bool {
+    public function delete(string $user, string $imageIdentifier): bool
+    {
         if (!$this->imageExists($user, $imageIdentifier)) {
             throw new StorageException('File not found', 404);
         }
@@ -59,7 +63,8 @@ class Filesystem implements StorageInterface {
         return unlink($path);
     }
 
-    public function getImage(string $user, string $imageIdentifier) : ?string {
+    public function getImage(string $user, string $imageIdentifier): ?string
+    {
         if (!$this->imageExists($user, $imageIdentifier)) {
             throw new StorageException('File not found', 404);
         }
@@ -69,7 +74,8 @@ class Filesystem implements StorageInterface {
         return file_get_contents($path) ?: null;
     }
 
-    public function getLastModified(string $user, string $imageIdentifier) : DateTime {
+    public function getLastModified(string $user, string $imageIdentifier): DateTime
+    {
         if (!$this->imageExists($user, $imageIdentifier)) {
             throw new StorageException('File not found', 404);
         }
@@ -81,11 +87,13 @@ class Filesystem implements StorageInterface {
         return new DateTime('@' . $timestamp);
     }
 
-    public function getStatus() : bool {
+    public function getStatus(): bool
+    {
         return is_writable($this->dataDir);
     }
 
-    public function imageExists(string $user, string $imageIdentifier) : bool {
+    public function imageExists(string $user, string $imageIdentifier): bool
+    {
         $path = $this->getImagePath($user, $imageIdentifier);
 
         return file_exists($path);
@@ -98,7 +106,8 @@ class Filesystem implements StorageInterface {
      * @param string $imageIdentifier Image identifier
      * @return string
      */
-    protected function getImagePath(string $user, string $imageIdentifier) : string {
+    protected function getImagePath(string $user, string $imageIdentifier): string
+    {
         $userPath = str_pad($user, 3, '0', STR_PAD_LEFT);
         $parts = [
             $this->dataDir,

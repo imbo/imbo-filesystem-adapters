@@ -5,17 +5,20 @@ namespace Imbo\Storage;
  * @coversDefaultClass Imbo\Storage\Filesystem
  * @group integration
  */
-class FilesystemIntegrationTest extends StorageTests {
+class FilesystemIntegrationTest extends StorageTests
+{
     private string $path;
 
-    protected function getAdapter() : Filesystem {
+    protected function getAdapter(): Filesystem
+    {
         $this->path = sys_get_temp_dir() . '/imbo-filesystem-integration-test-' . uniqid();
         mkdir($this->path);
 
         return new Filesystem($this->path);
     }
 
-    protected function tearDown() : void {
+    protected function tearDown(): void
+    {
         if (is_dir($this->path)) {
             $this->rmdir($this->path);
         }
@@ -28,7 +31,8 @@ class FilesystemIntegrationTest extends StorageTests {
      *
      * @param string $path Path to a file or a directory
      */
-    private function rmdir($path) : void {
+    private function rmdir($path): void
+    {
         $paths = glob($path . '/*');
 
         if (false === $paths) {

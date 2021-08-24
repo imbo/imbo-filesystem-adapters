@@ -2,37 +2,36 @@
 namespace Imbo\Storage;
 
 use DateTime;
-use Imbo\{
-    Storage\Filesystem,
-    Exception\StorageException,
-};
+use Imbo\Exception\StorageException;
 use PHPUnit\Framework\TestCase;
-use TestFs\{
-    Device,
-    StreamWrapper as TestFs,
-};
+use TestFs\Device;
+use TestFs\StreamWrapper as TestFs;
 
 /**
  * @coversDefaultClass Imbo\Storage\Filesystem
  */
-class FilesystemTest extends TestCase {
+class FilesystemTest extends TestCase
+{
     private string $user            = 'user';
     private string $imageIdentifier = 'image.png';
 
-    protected function setUp() : void {
+    protected function setUp(): void
+    {
         if (!TestFs::register()) {
             $this->fail('Unable to register stream wrapper');
         }
     }
 
-    protected function tearDown() : void {
+    protected function tearDown(): void
+    {
         TestFs::unregister();
     }
 
     /**
      * @covers ::delete
      */
-    public function testDeleteFileThatDoesNotExist() : void {
+    public function testDeleteFileThatDoesNotExist(): void
+    {
         $adapter = new Filesystem(TestFs::url('foobar'));
         $this->expectExceptionObject(new StorageException('File not found', 404));
         $adapter->delete($this->user, $this->imageIdentifier);
@@ -41,7 +40,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::delete
      */
-    public function testDelete() : void {
+    public function testDelete(): void
+    {
         $adapter = new Filesystem(TestFs::url('basedir'));
 
         $dir = TestFs::url(join('/', [
@@ -54,7 +54,7 @@ class FilesystemTest extends TestCase {
             $this->imageIdentifier[1],
             $this->imageIdentifier[2],
         ]));
-        $filePath = sprintf('%s/%s', $dir , $this->imageIdentifier);
+        $filePath = sprintf('%s/%s', $dir, $this->imageIdentifier);
 
         mkdir($dir, 0777, true);
         touch($filePath);
@@ -69,7 +69,8 @@ class FilesystemTest extends TestCase {
      * @covers ::store
      * @covers ::__construct
      */
-    public function testStoreToUnwritablePath() : void {
+    public function testStoreToUnwritablePath(): void
+    {
         $image = 'some image data';
         $dir = TestFs::url('unwritableDirectory');
 
@@ -84,8 +85,9 @@ class FilesystemTest extends TestCase {
      * @covers ::store
      * @covers ::getImagePath
      */
-    public function testStore() : void {
-        $path = __DIR__ . '/Fixtures/image.png';
+    public function testStore(): void
+    {
+        $path = __DIR__ . '/../Fixtures/image.png';
         $imageData = (string) file_get_contents($path);
 
         $baseDir = TestFs::url('someDir');
@@ -103,7 +105,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getImage
      */
-    public function testGetImageFileThatDoesNotExist() : void {
+    public function testGetImageFileThatDoesNotExist(): void
+    {
         $adapter = new Filesystem('/tmp');
         $this->expectExceptionObject(new StorageException('File not found', 404));
         $adapter->getImage($this->user, $this->imageIdentifier);
@@ -112,7 +115,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getImage
      */
-    public function testGetImage() : void {
+    public function testGetImage(): void
+    {
         $dir = TestFs::url('basedir');
         mkdir($dir);
         $adapter = new Filesystem($dir);
@@ -138,7 +142,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getLastModified
      */
-    public function testGetLastModifiedWithFileThatDoesNotExist() : void {
+    public function testGetLastModifiedWithFileThatDoesNotExist(): void
+    {
         $adapter = new Filesystem('/some/path');
         $this->expectExceptionObject(new StorageException('File not found', 404));
         $adapter->getLastModified($this->user, $this->imageIdentifier);
@@ -147,7 +152,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getLastModified
      */
-    public function testGetLastModified() : void {
+    public function testGetLastModified(): void
+    {
         $dir = TestFs::url('basedir');
         $adapter = new Filesystem($dir);
 
@@ -160,7 +166,7 @@ class FilesystemTest extends TestCase {
             $this->imageIdentifier[0],
             $this->imageIdentifier[1],
             $this->imageIdentifier[2],
-            $this->imageIdentifier
+            $this->imageIdentifier,
         ]));
 
         mkdir(dirname($filePath), 0777, true);
@@ -172,7 +178,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getStatus
      */
-    public function testGetStatusWhenBaseDirIsNotWritable() : void {
+    public function testGetStatusWhenBaseDirIsNotWritable(): void
+    {
         $dir = TestFs::url('dir');
         mkdir($dir, 0000);
         $adapter = new Filesystem($dir);
@@ -182,7 +189,8 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::getStatus
      */
-    public function testGetStatusWhenBaseDirIsWritable() : void {
+    public function testGetStatusWhenBaseDirIsWritable(): void
+    {
         $dir = TestFs::url('dir');
         mkdir($dir);
         $adapter = new Filesystem($dir);
@@ -192,8 +200,9 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::store
      */
-    public function testStoreFileThatAlreadyExists() : void {
-        $path = __DIR__ . '/Fixtures/image.png';
+    public function testStoreFileThatAlreadyExists(): void
+    {
+        $path = __DIR__ . '/../Fixtures/image.png';
         $imageData = (string) file_get_contents($path);
 
         $baseDir = TestFs::url('someDir');
@@ -219,8 +228,9 @@ class FilesystemTest extends TestCase {
     /**
      * @covers ::store
      */
-    public function testThrowsExceptionOnEmptyDisk() : void {
-        $path = __DIR__ . '/Fixtures/image.png';
+    public function testThrowsExceptionOnEmptyDisk(): void
+    {
+        $path = __DIR__ . '/../Fixtures/image.png';
         $imageData = (string) file_get_contents($path);
 
         $baseDir = TestFs::url('someDir');
