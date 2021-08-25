@@ -10,12 +10,9 @@ Filesystem storage adapter for Imbo.
 
 ## Usage
 
-Create the adapter by giving it a path:
-
 ```php
-use Imbo\Storage\Filesystem;
-
-$adapter = new Filesystem($path);
+$mainStorageAdapter = new Imbo\Storage\Filesystem($path);
+$imageVariationsStorageAdapter = new Imbo\EventListener\ImageVariations\Storage\Filesystem($path);
 ```
 
 ## License

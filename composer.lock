@@ -817,12 +817,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/imbo/imbo-adapters-sdk.git",
-                "reference": "ca2e621a357b5f4137cc89556a74ffae0df134a4"
+                "reference": "2daaa4f3eb51d0a004e034588d62c4e398f9d946"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imbo/imbo-adapters-sdk/zipball/ca2e621a357b5f4137cc89556a74ffae0df134a4",
-                "reference": "ca2e621a357b5f4137cc89556a74ffae0df134a4",
+                "url": "https://api.github.com/repos/imbo/imbo-adapters-sdk/zipball/2daaa4f3eb51d0a004e034588d62c4e398f9d946",
+                "reference": "2daaa4f3eb51d0a004e034588d62c4e398f9d946",
                 "shasum": ""
             },
             "require": {
@@ -866,20 +866,20 @@
                 "issues": "https://github.com/imbo/imbo-adapters-sdk/issues",
                 "source": "https://github.com/imbo/imbo-adapters-sdk/tree/main"
             },
-            "time": "2021-08-25T18:54:01+00:00"
+            "time": "2021-08-25T20:18:00+00:00"
         },
         {
             "name": "imbo/imbo-coding-standard",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imbo/imbo-coding-standard.git",
-                "reference": "01e277ed4d030f9f516a756a6639dbf053d042d9"
+                "reference": "12d7c63041a0bd29d3fd65259a1c542d79c308db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imbo/imbo-coding-standard/zipball/01e277ed4d030f9f516a756a6639dbf053d042d9",
-                "reference": "01e277ed4d030f9f516a756a6639dbf053d042d9",
+                "url": "https://api.github.com/repos/imbo/imbo-coding-standard/zipball/12d7c63041a0bd29d3fd65259a1c542d79c308db",
+                "reference": "12d7c63041a0bd29d3fd65259a1c542d79c308db",
                 "shasum": ""
             },
             "require": {
@@ -916,9 +916,9 @@
             ],
             "support": {
                 "issues": "https://github.com/imbo/imbo-coding-standard/issues",
-                "source": "https://github.com/imbo/imbo-coding-standard/tree/v2.0.1"
+                "source": "https://github.com/imbo/imbo-coding-standard/tree/v2.0.2"
             },
-            "time": "2021-08-24T15:50:10+00:00"
+            "time": "2021-08-25T20:08:10+00:00"
         },
         {
             "name": "myclabs/deep-copy",
