@@ -16,16 +16,16 @@
     }
   ],
   "require": {
-    "php": ">=7.4"
+    "php": ">=8.1"
   },
   "require-dev": {
-    "christeredvartsen/testfs": "^0.3",
+    "christeredvartsen/testfs": "^0.4",
     "imbo/imbo": "dev-main",
     "imbo/imbo-adapters-sdk": "dev-main",
     "imbo/imbo-coding-standard": "^2.0",
     "phpunit/phpunit": "^9.3",
-    "psalm/plugin-phpunit": "^0.16.1",
-    "vimeo/psalm": "^4.1"
+    "psalm/plugin-phpunit": "^0.18.4",
+    "vimeo/psalm": "^5.5"
   },
   "autoload": {
     "psr-4": {
