@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 namespace Imbo\EventListener\ImageVariations\Storage;
 
-/**
- * @coversDefaultClass Imbo\EventListener\ImageVariations\Storage\Filesystem
- */
+use PHPUnit\Framework\Attributes\CoversClass;
+
+#[CoversClass(Filesystem::class)]
 class FilesystemIntegrationTest extends StorageTests
 {
     private string $path;
@@ -37,7 +37,13 @@ class FilesystemIntegrationTest extends StorageTests
 
     private function rmdir(string $path): void
     {
-        foreach (glob($path . '/*') as $file) {
+        $paths = glob($path . '/*');
+
+        if (false === $paths) {
+            return;
+        }
+
+        foreach ($paths as $file) {
             if (is_dir($file)) {
                 $this->rmdir($file);
             } else {

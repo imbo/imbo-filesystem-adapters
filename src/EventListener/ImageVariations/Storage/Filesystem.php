@@ -40,7 +40,7 @@ class Filesystem implements StorageInterface
         $variationPath = $this->getImagePath($user, $imageIdentifier, $width);
 
         if (file_exists($variationPath)) {
-            return file_get_contents($variationPath);
+            return (string) file_get_contents($variationPath);
         }
 
         return null;
@@ -58,7 +58,7 @@ class Filesystem implements StorageInterface
             return false;
         }
 
-        /** @var array<string> */
+        /** @var list<string> */
         $files = glob($variationsPath . '/*');
 
         foreach ($files as $file) {

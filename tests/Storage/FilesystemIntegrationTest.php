@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 namespace Imbo\Storage;
 
-/**
- * @coversDefaultClass Imbo\Storage\Filesystem
- * @group integration
- */
+use PHPUnit\Framework\Attributes\CoversClass;
+
+#[CoversClass(Filesystem::class)]
 class FilesystemIntegrationTest extends StorageTests
 {
     private string $path;
@@ -26,12 +25,7 @@ class FilesystemIntegrationTest extends StorageTests
         parent::tearDown();
     }
 
-    /**
-     * Recursively delete the test directory
-     *
-     * @param string $path Path to a file or a directory
-     */
-    private function rmdir($path): void
+    private function rmdir(string $path): void
     {
         $paths = glob($path . '/*');
 

@@ -2,12 +2,11 @@
 namespace Imbo\EventListener\ImageVariations\Storage;
 
 use Imbo\Exception\StorageException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use TestFs\StreamWrapper as TestFs;
 
-/**
- * @coversDefaultClass Imbo\EventListener\ImageVariations\Storage\Filesystem
- */
+#[CoversClass(Filesystem::class)]
 class FilesystemTest extends TestCase
 {
     public function setUp(): void
@@ -20,10 +19,6 @@ class FilesystemTest extends TestCase
         TestFs::unregister();
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::storeImageVariation
-     */
     public function testThrowsExceptionWhenNotAbleToWriteToDirectory(): void
     {
         $dir = TestFs::url('dirname');
@@ -37,9 +32,6 @@ class FilesystemTest extends TestCase
         $adapter->storeImageVariation('pub', 'img', 'blob', 700);
     }
 
-    /**
-     * @covers ::deleteImageVariations
-     */
     public function testDoesNotThrowWhenDeletingNonExistantVariation(): void
     {
         $dir = TestFs::url('dirname');
@@ -49,10 +41,6 @@ class FilesystemTest extends TestCase
         $this->assertFalse($adapter->deleteImageVariations('pub', 'img'));
     }
 
-    /**
-     * @covers ::getImageVariation
-     * @covers ::getImagePath
-     */
     public function testCanGetImageVariation(): void
     {
         $blob = file_get_contents(__DIR__ . '/../../../Fixtures/image.png');

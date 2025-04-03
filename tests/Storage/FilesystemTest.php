@@ -1,15 +1,14 @@
 <?php declare(strict_types=1);
 namespace Imbo\Storage;
 
-use DateTime;
+use DateTimeImmutable;
 use Imbo\Exception\StorageException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use TestFs\Device;
 use TestFs\StreamWrapper as TestFs;
 
-/**
- * @coversDefaultClass Imbo\Storage\Filesystem
- */
+#[CoversClass(Filesystem::class)]
 class FilesystemTest extends TestCase
 {
     private string $user            = 'user';
@@ -27,9 +26,6 @@ class FilesystemTest extends TestCase
         TestFs::unregister();
     }
 
-    /**
-     * @covers ::delete
-     */
     public function testDeleteFileThatDoesNotExist(): void
     {
         $adapter = new Filesystem(TestFs::url('foobar'));
@@ -37,9 +33,6 @@ class FilesystemTest extends TestCase
         $adapter->delete($this->user, $this->imageIdentifier);
     }
 
-    /**
-     * @covers ::delete
-     */
     public function testDelete(): void
     {
         $adapter = new Filesystem(TestFs::url('basedir'));
@@ -65,10 +58,6 @@ class FilesystemTest extends TestCase
         $this->assertFalse(is_file($filePath), 'Did not expect file to exist');
     }
 
-    /**
-     * @covers ::store
-     * @covers ::__construct
-     */
     public function testStoreToUnwritablePath(): void
     {
         $image = 'some image data';
@@ -81,10 +70,6 @@ class FilesystemTest extends TestCase
         $adapter->store($this->user, $this->imageIdentifier, $image);
     }
 
-    /**
-     * @covers ::store
-     * @covers ::getImagePath
-     */
     public function testStore(): void
     {
         $path = __DIR__ . '/../Fixtures/image.png';
@@ -102,9 +87,6 @@ class FilesystemTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::getImage
-     */
     public function testGetImageFileThatDoesNotExist(): void
     {
         $adapter = new Filesystem('/tmp');
@@ -112,9 +94,6 @@ class FilesystemTest extends TestCase
         $adapter->getImage($this->user, $this->imageIdentifier);
     }
 
-    /**
-     * @covers ::getImage
-     */
     public function testGetImage(): void
     {
         $dir = TestFs::url('basedir');
@@ -139,9 +118,6 @@ class FilesystemTest extends TestCase
         $this->assertSame('some content', $adapter->getImage($this->user, $this->imageIdentifier));
     }
 
-    /**
-     * @covers ::getLastModified
-     */
     public function testGetLastModifiedWithFileThatDoesNotExist(): void
     {
         $adapter = new Filesystem('/some/path');
@@ -149,13 +125,11 @@ class FilesystemTest extends TestCase
         $adapter->getLastModified($this->user, $this->imageIdentifier);
     }
 
-    /**
-     * @covers ::getLastModified
-     */
     public function testGetLastModified(): void
     {
         $dir = TestFs::url('basedir');
         $adapter = new Filesystem($dir);
+        $before = new DateTimeImmutable();
 
         $filePath = TestFs::url(join('/', [
             'basedir',
@@ -172,12 +146,13 @@ class FilesystemTest extends TestCase
         mkdir(dirname($filePath), 0777, true);
         file_put_contents($filePath, 'some content');
 
-        $this->assertInstanceOf(DateTime::class, $adapter->getLastModified($this->user, $this->imageIdentifier));
+        $modified = $adapter->getLastModified($this->user, $this->imageIdentifier);
+        $this->assertTrue(
+            $modified->getTimestamp() >= $before->getTimestamp(),
+            'Modified timestamp is not correct',
+        );
     }
 
-    /**
-     * @covers ::getStatus
-     */
     public function testGetStatusWhenBaseDirIsNotWritable(): void
     {
         $dir = TestFs::url('dir');
@@ -186,9 +161,6 @@ class FilesystemTest extends TestCase
         $this->assertFalse($adapter->getStatus());
     }
 
-    /**
-     * @covers ::getStatus
-     */
     public function testGetStatusWhenBaseDirIsWritable(): void
     {
         $dir = TestFs::url('dir');
@@ -197,9 +169,6 @@ class FilesystemTest extends TestCase
         $this->assertTrue($adapter->getStatus());
     }
 
-    /**
-     * @covers ::store
-     */
     public function testStoreFileThatAlreadyExists(): void
     {
         $path = __DIR__ . '/../Fixtures/image.png';
@@ -225,9 +194,6 @@ class FilesystemTest extends TestCase
         $this->assertEqualsWithDelta(time(), $adapter->getLastModified($this->user, $this->imageIdentifier)->getTimestamp(), 1);
     }
 
-    /**
-     * @covers ::store
-     */
     public function testThrowsExceptionOnEmptyDisk(): void
     {
         $path = __DIR__ . '/../Fixtures/image.png';
