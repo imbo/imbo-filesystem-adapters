@@ -204,7 +204,7 @@ class FilesystemTest extends TestCase
 
         /** @var Device */
         $device = TestFs::getDevice();
-        $device->setDeviceSize(2);
+        $device->setSize(2);
 
         $adapter = new Filesystem($baseDir);
 

@@ -46,7 +46,7 @@ class Filesystem implements StorageInterface
         return null;
     }
 
-    public function deleteImageVariations(string $user, string $imageIdentifier, int $width = null): bool
+    public function deleteImageVariations(string $user, string $imageIdentifier, ?int $width = null): bool
     {
         if (null !== $width) {
             return unlink($this->getImagePath($user, $imageIdentifier, $width));
@@ -76,7 +76,7 @@ class Filesystem implements StorageInterface
      * @param int $width Width of the image, in pixels
      * @return string
      */
-    private function getImagePath(string $user, string $imageIdentifier, int $width = null): string
+    private function getImagePath(string $user, string $imageIdentifier, ?int $width = null): string
     {
         $userPath = str_pad($user, 3, '0', STR_PAD_LEFT);
         $parts = array_filter([
