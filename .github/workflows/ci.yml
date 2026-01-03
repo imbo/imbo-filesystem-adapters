@@ -1,4 +1,4 @@
-name: Run CI pipeline
+name: CI
 on:
   pull_request:
   push:
@@ -10,7 +10,7 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,19 +34,17 @@ jobs:
         with:
           path: ${{ steps.composer-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
       - run: composer install
       - run: vendor/bin/phpunit
       - run: vendor/bin/phpstan analyse
       - run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer check --diff
   branch-protection:
     needs:
-      - test
+      - ci
     if: ${{ always() }}
     runs-on: ubuntu-latest
     name: Branch protection
     steps:
-      - if: ${{ needs.test.result != 'success' }}
+      - if: ${{ needs.ci.result != 'success' }}
         run: exit 1
       - run: echo "All checks passed."
